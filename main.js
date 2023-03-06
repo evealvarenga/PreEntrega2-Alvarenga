@@ -1,64 +1,71 @@
-class Producto {
-    constructor(id, nombre, precio, descripcion, url_img) {
+//Clases
+class Product {
+    constructor(id, name, precio, sum, stock) {
         this.id = id;
-        this.nombre = nombre;
+        this.name = name;
         this.precio = precio;
-        this.descripcion = descripcion
-        this.url_img = url_img;
+        this.sum = sum;
+        this.stock = stock;
     }
 
-    descripcionHTML(){
-        return `
-        <article class="card" style="width: 18rem;">
-                <img src="${this.url_img}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">${this.nombre}</h5>
-                    <p class="card-text">Precio: $${this.precio}</p>
-                    <p class="card-text">Descripcion: ${this.descripcion}</p>
-                    <a href="#" class="btn btn-primary">Añadir al carrito</a>
-                </div>
-            </article>
-        `
+    descripcion() {
+        return "ID :" + this.id
+            + "\nNombre :" + this.name
+            + "\nPrecio: $" + this.precio
     }
-
 }
 
-class ProductoController {
-
+class ProductControl  {
     constructor() {
         this.listaProductos = []
     }
 
-    agregarProducto(producto) {
+    agregarJuego(producto) {
         this.listaProductos.push(producto)
+    }
+
+    filtrarJuegosPorPrecio(precio) {
+        return this.listaProductos.filter((el) => el.precio <= precio)
+    }
+
+    mostrarJuegos() {
+        this.listaProductos.forEach((el) => {
+            console.log( el.descripcion() )
+        }
+        )
     }
 }
 
-const controladorProductos = new ProductoController()
+class Carrito{
+    constructor(listaDeCompra){
+        this.precioTotal = 0
+        this.listaDeCompra = listaDeCompra
+    }
 
-controladorProductos.agregarProducto(new Producto(1, "Ryzen 5 5600G", 145000, "Un procesador de gama media/alta", "assets/img/ryzen5-5600g.jpg"))
-controladorProductos.agregarProducto(new Producto(2, "Ryzen 5 5600X", 16000, "Un procesador de gama alta", "assets/img/ryzen5-5600X.jpg"))
-controladorProductos.agregarProducto(new Producto(3, "Ryzen 7 5700G", 175000, "Un procesador de gama alta", "assets/img/ryzen7-5700g.jpg"))
-controladorProductos.agregarProducto(new Producto(4, "Ryzen 5 5800X", 185000, "Un procesador de gama alta", "assets/img/ryzen7-5800X.jpg"))
-controladorProductos.agregarProducto(new Producto(5,"Ryzen 9 5900X", 600000, "Un procesador de gama muy alta", "assets/img/ryzen9-5900X.jpg" ))
+    calcularPrecioTotal(arr){
+        let  precioTotal = 0;
+        arr.forEach( producto => {
+            precioTotal += producto.precio * producto.cantidad
+        })
+        for (const objeto_dentro of this.listaDeCompra) {
+            this.precioTotal = this.precioTotal + objeto_dentro.precio * objeto_dentro.cantidad 
+        }
+        return this.precioTotal
+    }
+}
+
+//Declaración de productos
+const allProducts  = new ProductControl()
+allProducts .agregarJuego(new Product(001, "VOL.1: Balance", 4490, "Otorga balance y humectación a la piel, reduciendo la inflamación y/o enrojecimiento de la misma. Ayuda a controlar el acné y brinda luminosidad.", 50))
+allProducts .agregarJuego(new Product(002, "VOL.2: Restauración", 4990, "Su fórmula combina ácido hialurónico de diversos pesos moleculares con un polímero cruzado para hidratar múltiples niveles de la piel. La vitamina B5 potencia la hidratación y restaura la barrera cutánea dejando una apariencia suave y elástica.", 55))
+allProducts .agregarJuego(new Product(003, "VOL.3: Renovación", 4990, "Su fórmula con Bakuchiol, una alternativa vegana al retinol con propiedades antioxidantes que renueva la textura de la piel suavizando la apariencia de líneas finas y arrugas, evitando la descamación.", 45))
+allProducts .agregarJuego(new Product(004, "Defensa AM/PM", 4400, "Sella la hidratación, protegiendo y fortaleciendo la barrera de la piel. Su fórmula de textura fluida incorpora la tecnología probiótica, combinando la acción del Extracto de Matcha Plus de propiedades antioxidantes, con el Hydraskin, un activo postbiótico que hidrata la piel en profundidad, penetrando hasta 4mm y conservando su efecto por 72hs, para sellarla y protegerla de daños externos.", 50))
+allProducts .agregarJuego(new Product(005, "Energía", 3190, "ENERGÍA es la crema para contorno de ojos que estabas esperando, una fórmula especialmente diseñada en pomo con aplicador metálico.", 50))
+allProducts .agregarJuego(new Product(006, "Máscara Hidratante", 2790, "Esta máscara hidratante es ideal para suavizar, hidratar e iluminar todo tipo de pieles.", 60))
+allProducts .agregarJuego(new Product(006, "Máscara Hidratante", 2790, "Esta máscara hidratante es ideal para suavizar, hidratar e iluminar todo tipo de pieles.", 60))
+allProducts .agregarJuego(new Product(007, "Ampollas de Melatonina", 3590, "Estimula la producción de enzimas antioxidantes para maximizar la regeneración de la piel durante la noche.", 100))
+
+//Inicio
 
 
-const productos = document.getElementById('productos')
-
-controladorProductos.listaProductos.forEach(producto => {
-
-    productos.innerHTML += producto.descripcionHTML()
-    /*
-    `
-        <article class="card" style="width: 18rem;">
-                <img src="${this.url_img}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">${this.nombre}</h5>
-                    <p class="card-text">Precio: $${this.precio}</p>
-                    <p class="card-text">Descripcion: ${this.descripcion}</p>
-                    <a href="#" class="btn btn-primary">Añadir al carrito</a>
-                </div>
-            </article>
-        `
-     */
-})
+allProducts .mostrarJuegos()
